@@ -62,11 +62,11 @@ function gen_key() {
     return 1
   fi
 
-  read -p 'Please define an alias (default: "default"): ' _key_alias
-  echo -e '\b'
+  read -p "Please define an alias (default: "default"): " _key_alias
+  echo -e "\b"
 
   if [ -z $_key_alias ]; then
-    _key_alias='default'
+    _key_alias="default"
   fi
 
   _key_alias="${_key_alias}-key"
@@ -84,11 +84,11 @@ function gen_key() {
 
     _passphrase="$(gen_passphrase)"
 
-    echo -e '✓ Passphrase has been generated, it will be disclosed later.'
+    echo "✓ Passphrase has been generated, it will be disclosed later."
   else
-    while [ ${#_passphrase} -lt 10 ]; do
-      read -s -p 'Enter a passphrase (10 char. min.): ' _passphrase
-      echo -e '\b'
+    while [ ${#_passphrase} -lt $_default_passphrase_length ]; do
+      read -s -p "Enter a passphrase ($_default_passphrase_length char. min.): " _passphrase
+      echo -e "\b"
 
       if [ -z $_passphrase ]; then
         echo -e "\nPassphrase has not been set, therefore generating it..."
@@ -96,21 +96,21 @@ function gen_key() {
         _passphrase="$(gen_passphrase)"
         _confirm_passphrase=$_passphrase
 
-        echo -e 'ℹ A default passphrase has been set, it will be disclosed later.'
+        echo "ℹ A default passphrase has been set, it will be disclosed later."
       fi
     done
 
     while [ "$_passphrase" != "$_confirm_passphrase" ]; do
-      read -s -p 'Confirm passphrase: ' _confirm_passphrase
+      read -s -p "Confirm passphrase: " _confirm_passphrase
     done
   fi
 
-  echo -e '\b'
+  echo -e "\b"
 
-  read -p 'Enter common name (default: www.domain.com): ' _common_name
+  read -p "Enter common name (default: www.domain.com): " _common_name
 
-  if [ -z $_common_name ]; then
-    _common_name='www.domain.com'
+  if [ -z "$_common_name" ]; then
+    _common_name="www.domain.com"
   fi
 
   if ! rm -rf ${_key_alias}.prv ${_key_alias}.crt ${_key_alias}.ssh.prv ${_key_alias}.pub ${_key_alias}.ssh.pub ${_key_alias}.p12; then
@@ -164,7 +164,7 @@ function gen_key() {
 
   cd ..
 
-  echo -e '\nThe console is about to be cleared in \033[1m60 seconds\033[0m.'
+  echo -e "\nThe console is about to be cleared in \033[1m60 seconds\033[0m."
 
   sleep 60 && clear
 
